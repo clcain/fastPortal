@@ -1,6 +1,6 @@
 # fastPortal
 
-A lightweight portal generating Docker container.
+A lightweight portal generating Python app.
 
 ## Installation
 
@@ -10,8 +10,16 @@ make install
 
 ## Usage
 
-Define your portal page using YAML in [portals/](portals/). You can model yours after the [example](portals/example.yml).
+Define your portal page using YAML in [portals/](portals/). You can model yours after the [example](portals/example.yml). You may also include static elements in [static/](static/).
 
-For development/testing, run `make up`. View the [docker-compose.yml](docker-compose.yml) if you need to change ports.
+For development/testing:
 
-For production deployment, run `./publish.sh IMAGE_NAME:IMAGE_TAG`.
+```bash
+make up
+```
+
+For a production deployment:
+
+```bash
+./publish.sh IMAGE_NAME:IMAGE_TAG
+```
