@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  apache:
+    build: ./apache
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8000:80
+    volumes:
+      - ./html:/var/www/html/
