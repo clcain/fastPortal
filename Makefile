@@ -8,10 +8,6 @@ build:
 		./fastPortal.py ./portals/$$bname ./html/$${name}.html; \
 	done
 
-env:
-	pip3 install --upgrade pip
-	pip3 install -r requirements.txt
-
 up: down build
 	docker-compose up -d
 
@@ -23,6 +19,10 @@ restart:
 
 logs:
 	docker-compose logs -f
+
+env:
+	pip3 install --upgrade pip
+	pip3 install -r requirements.txt
 
 clean: rm
 	docker-compose down -t 0
