@@ -1,0 +1,43 @@
+portal: Example Portal
+header_tag: EXAMPLE
+groups:
+  - label: Services Group 1
+    services:
+      - title: Service 1
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+      - title: Service 2
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+  - label: Services Group 2
+    services:
+      - title: Service 4
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+      - title: Service 5
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+  - label: Services Group 3
+    services:
+      - title: Service 6
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+      - title: Service 7
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
+
+      - title: Service 8
+        description: An example service
+        url: https://example.com
+        icon: img/web.png
