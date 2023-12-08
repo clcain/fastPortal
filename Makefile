@@ -12,7 +12,7 @@ env:
 	pip3 install --upgrade pip
 	pip3 install -r requirements.txt
 
-up: down
+up: down build
 	docker-compose up -d
 
 down:
