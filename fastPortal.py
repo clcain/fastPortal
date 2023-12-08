@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import csv
+import os
 import sys
 
 import yaml
 
-DEFAULT_TEMPLATE = '../templates/portal.html'
+DEFAULT_TEMPLATE = 'templates/portal.html'
 
 
 def get_html_template(template_file_path=DEFAULT_TEMPLATE):
@@ -17,13 +18,14 @@ class Portal:
 
     @classmethod
     def load(cls, yaml_file_path):
+        print(f'Loading portal: {yaml_file_path}')
         with open(yaml_file_path, 'r') as f:
             data = yaml.safe_load(f)
 
         return cls(
-            portal_title=data.get('portal'),
-            portal_header_tag=data.get('header_tag'),
-            service_groups=data.get('groups'),
+            portal_title=data.get('portal', ''),
+            portal_header_tag=data.get('header_tag', ''),
+            service_groups=data.get('groups', ''),
         )
 
     def __init__(self,
@@ -36,6 +38,7 @@ class Portal:
         self.service_groups = service_groups
 
     def render_template(self, template, html_file_path):
+        print(f'Writing rendered page: {html_file_path}')
         with open(html_file_path, 'w') as f:
             f.write(template.format(
                 title=self.portal_title,
@@ -62,19 +65,22 @@ class Portal:
         html = []
         html.append('<div class="services-group">')
         html.append('<div class="services-group-label">')
-        html.append(services_group.get('label'))
+        html.append(services_group.get('label', ''))
         html.append('</div>')
-        for service in services_group.get('services'):
+        for service in services_group.get('services', ''):
             html.append(Portal._generate_service_html(service))
         html.append('</div>')
         return '\n'.join(html)
 
     @staticmethod
     def _generate_service_html(service):
-        service_url = service.get('url')
-        service_icon = service.get('icon')
-        service_title = service.get('title')
-        service_description = service.get('description')
+        service_url = service.get('url', '')
+        service_icon = service.get('icon', '')
+        service_title = service.get('title', '')
+        service_description = service.get('description', '')
+
+        if not os.path.exists(f'./static/{service_icon}'):
+            service_icon = 'img/web.png'
 
         html = []
         html.append(f'<a class="service" href="{service_url}" target="_blank" rel="noopener noreferrer">')
