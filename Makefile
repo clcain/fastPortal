@@ -24,7 +24,7 @@ env:
 	pip3 install --upgrade pip
 	pip3 install -r requirements.txt
 
-clean: rm
+clean:
 	docker-compose down -t 0
 	docker-compose rm -fv
 	rm -rf ./html/*
