@@ -43,6 +43,8 @@ body {
   max-width: 1360px;
   margin: auto;
   overflow-y: auto;
+  transform: scale(0.9);
+  transform-origin: 50% 0;
 }
 
 .services-column {
