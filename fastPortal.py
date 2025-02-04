@@ -59,11 +59,11 @@ class Portal:
 
         for group_i, aggregate_services_count in total_services_count_by_group_i.items():
             if aggregate_services_count * 2 >= total_services_count:
-                services_group_midpoint_i = group_i
+                services_group_midpoint_i = group_i + 1
                 break
 
         services_column_1 = services_groups[0:services_group_midpoint_i]
-        services_column_2 = services_groups[services_group_midpoint_i:-1]
+        services_column_2 = services_groups[services_group_midpoint_i:]
 
         return services_column_1, services_column_2
 
