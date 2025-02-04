@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import csv
+import math
 import os
 import sys
 
@@ -25,17 +26,17 @@ class Portal:
         return cls(
             portal_title=data.get('portal', ''),
             portal_header_tag=data.get('header_tag', ''),
-            service_groups=data.get('groups', ''),
+            services_groups=data.get('groups', ''),
         )
 
     def __init__(self,
                  portal_title,
                  portal_header_tag,
-                 service_groups,
+                 services_groups,
                  ):
         self.portal_title = portal_title
         self.portal_header_tag = portal_header_tag
-        self.service_groups = service_groups
+        self.services_groups = services_groups
 
     def render_template(self, template, html_file_path):
         print(f'Writing rendered page: {html_file_path}')
@@ -43,16 +44,35 @@ class Portal:
             f.write(template.format(
                 title=self.portal_title,
                 header_tag=self.portal_header_tag,
-                services=Portal._generate_services_html(self.service_groups),
+                services=Portal._generate_services_html(self.services_groups),
             ))
 
     @staticmethod
-    def _generate_services_html(service_groups):
-        services_column_1 = service_groups[:int(len(service_groups)/2+1)]
-        services_column_2 = service_groups[int(len(service_groups)/2+1):]
+    def _split_services_groups(services_groups):
+        total_services_count = 0
+        total_services_count_by_group_i = {}
+        for i in range(0, len(services_groups)):
+            total_services_count += len(services_groups[i].get('services', []))
+            total_services_count_by_group_i[i] = total_services_count
+
+        services_group_midpoint_i = 0
+
+        for group_i, aggregate_services_count in total_services_count_by_group_i.items():
+            if aggregate_services_count * 2 >= total_services_count:
+                services_group_midpoint_i = group_i
+                break
+
+        services_column_1 = services_groups[0:services_group_midpoint_i]
+        services_column_2 = services_groups[services_group_midpoint_i:-1]
+
+        return services_column_1, services_column_2
+
+    @ staticmethod
+    def _generate_services_html(services_groups):
+        services_groups_column_1, services_groups_column_2 = Portal._split_services_groups(services_groups)
 
         html = []
-        for services_column in [services_column_1, services_column_2]:
+        for services_column in [services_groups_column_1, services_groups_column_2]:
             if len(services_column) > 0:
                 html.append('<div class="services-column">')
                 for services_group in services_column:
@@ -60,7 +80,7 @@ class Portal:
                 html.append('</div>')
         return '\n'.join(html)
 
-    @staticmethod
+    @ staticmethod
     def _generate_services_group_html(services_group):
         html = []
         html.append('<div class="services-group">')
@@ -72,7 +92,7 @@ class Portal:
         html.append('</div>')
         return '\n'.join(html)
 
-    @staticmethod
+    @ staticmethod
     def _generate_service_html(service):
         service_url = service.get('url', '')
         service_icon = service.get('icon', '')
